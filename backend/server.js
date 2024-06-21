@@ -17,10 +17,10 @@ dotenv.config();
 app.use(express.json()); //to parse data from the income data (req.body)
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  console.log("Hi this is the chat server");
-  res.send("hi this is the chat server");
-});
+// app.get("/", (req, res) => {
+//   console.log("Hi this is the chat server");
+//   res.send("hi this is the chat server");
+// });
 
 app.use("/api/auth", authRouters);
 app.use('/api/messages', messageRoute);
@@ -28,9 +28,9 @@ app.use('/api/users', userRoutes);
 
 app.use(express.static(path.join(__dirname,'/frontend/dist')));
 
-app.get("*",(req,res) => {
-  res.sendFile(path.join(__dirname,"frontend","dist","index.html"))
-})
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "/frontend/dist/index.html"));
+});
 
 // add server if i want to use the socket io
 server.listen(PORT, () => {
