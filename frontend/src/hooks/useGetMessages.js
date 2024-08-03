@@ -9,8 +9,10 @@ const useGetMessages = () => {
   useEffect(() => {
     const getMessages = async () => {
       setLoading(true);
-      try {
-        const res = await fetch(`/api/messages/${selectedConversation?._id}`);
+      let storagess = localStorage.getItem('chat-user');
+        try {
+          const headers = { 'Authorization': `Bearer ${JSON.parse(storagess).token}`};
+        const res = await fetch(`/api/messages/${selectedConversation?._id}`,{headers});
         const data = await res.json();
         if (data?.error) throw new Error(data.error);
         console.log('get-message', data)

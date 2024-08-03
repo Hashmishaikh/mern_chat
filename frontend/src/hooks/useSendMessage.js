@@ -8,13 +8,16 @@ const useSendMessage = () => {
 
   const sendMessage = async (message) => {
     setLoading(true);
-    try {
+    let storagess = localStorage.getItem('chat-user');
+        try {
+          const headers = { 'Authorization': `Bearer ${JSON.parse(storagess).token}`};
       const res = await fetch(
         `/api/messages/send/${selectedConversation?._id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": headers.Authorization,
           },
           body: JSON.stringify({ message }),
         }

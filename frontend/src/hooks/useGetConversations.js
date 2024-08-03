@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 const useGetConversations = () => {
   const [loading,setLoading] = useState(false);
@@ -7,8 +7,10 @@ const useGetConversations = () => {
   useEffect(() => {
     const getConversations = async () => {
         setLoading(true);
+        let storagess = localStorage.getItem('chat-user');
         try {
-            const res = await fetch('/api/users');
+          const headers = { 'Authorization': `Bearer ${JSON.parse(storagess).token}`};
+            const res = await fetch('/api/users',{headers});
             const data = await res.json();
             if(data.error){
                 throw new Error(data.error)

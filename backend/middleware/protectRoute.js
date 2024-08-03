@@ -3,12 +3,20 @@ import User from "../model/user.model.js";
 
 const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
-    if (!token) {
+    // const token = req.cookies.jwt;
+    const authHeader = req.headers.authorization;
+    // if (!token) {
+    //   return res
+    //     .status(401)
+    //     .json({ error: "Unauthorized - no token provided" });
+    // }
+    if(!authHeader || !authHeader.startsWith("Bearer ")){
       return res
-        .status(401)
-        .json({ error: "Unauthorized - no token provided" });
-    }
+          .status(401)
+          .json({ error: "Unauthorized - no token provided" });
+      }
+    
+    const token = authHeader.split(" ")[1];
     const decode = jwt.verify(token, process.env.JWT_SECRET);
     if (!decode) {
       return res
