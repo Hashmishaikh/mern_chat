@@ -4,7 +4,7 @@ import generateTokenAndSetToken from "../utils/generateToken.js";
 
 export const signupUser = async (req, res) => {
   try {
-    const { fullName, username, password, confirmPassword, gender } = req.body;
+    const { fullName, username, password, confirmPassword, gender,expoToken } = req.body;
     if (confirmPassword != password) {
       return res.satus(400).json({ error: "Password not match" });
     }
@@ -25,6 +25,7 @@ export const signupUser = async (req, res) => {
       password: hashedPassword,
       gender,
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
+      expoToken
     });
     if (newUser) {
       // Generate jwt token
@@ -36,6 +37,7 @@ export const signupUser = async (req, res) => {
         username: newUser.username,
         profilePic: newUser.profilePic,
         token: authToken,
+        expoToken: newUser.expoToken
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
